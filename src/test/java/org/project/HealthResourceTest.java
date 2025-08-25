@@ -7,14 +7,14 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
-class SubstarHomeTest {
+class HealthResourceTest {
     @Test
     void testHelloEndpoint() {
         given()
           .when().get("/hello")
           .then()
              .statusCode(200)
-             .body(is("Hello from Substar REST"));
+             .body(is("Substar REST API up and running!"));
     }
 
 }
