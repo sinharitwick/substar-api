@@ -12,7 +12,7 @@ public class JwtUtility {
         return Jwt.issuer(ISSUER)
                 .upn(username)
                 .groups(roles)
-                .expiresAt(Instant.now().plusSeconds(3600))
+                .expiresAt(Instant.now().plusSeconds(60))
                 .sign();
     }
 }

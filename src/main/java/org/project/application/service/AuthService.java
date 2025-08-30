@@ -7,6 +7,7 @@ import org.project.application.dto.LoginResponse;
 import org.project.application.dto.SignUpRequest;
 import org.project.application.dto.UserResponse;
 import org.project.common.utils.JwtUtility;
+import org.project.common.utils.PasswordUtility;
 import org.project.domain.model.User;
 import org.project.infrastructure.repository.UserRepository;
 
@@ -26,7 +27,7 @@ public class AuthService {
 
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(PasswordUtility.hashPassword(request.getPassword()));
         user.setUserName(request.getUserName());
         user.setCreatedAt(ZonedDateTime.now());
         user.setUpdatedAt(ZonedDateTime.now());
@@ -44,7 +45,7 @@ public class AuthService {
 
         User user = userOpt.get();
 
-        if(!user.getPassword().equals(request.getPassword())) {
+        if(!PasswordUtility.checkPassword(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
 
