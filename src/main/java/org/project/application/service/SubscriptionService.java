@@ -2,6 +2,7 @@ package org.project.application.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.project.application.dto.SubscriptionRequest;
 import org.project.domain.model.Subscription;
 import org.project.domain.model.User;
@@ -9,6 +10,7 @@ import org.project.infrastructure.repository.SubscriptionRepository;
 import org.project.infrastructure.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class SubscriptionService {
@@ -41,5 +43,11 @@ public class SubscriptionService {
         s.setStatus("ACTIVE");
         subscriptionRepository.persistSubscription(s);
         return s;
+    }
+
+    @Transactional
+    public void deleteSubscription(Long subscriptionId) {
+        Subscription getSubscriptionById = subscriptionRepository.findById(subscriptionId);
+        subscriptionRepository.delete(getSubscriptionById);
     }
 }

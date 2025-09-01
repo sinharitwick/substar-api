@@ -40,4 +40,12 @@ public class SubscriptionResource {
         Long userId = Long.valueOf(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.addSubscription(userId, request)).build();
     }
+
+    @DELETE
+    @Path("/{id}")
+    @RolesAllowed("USER")
+    public Response deleteSubscription(@PathParam("id") Long subscriptionId) {
+        subscriptionService.deleteSubscription(subscriptionId);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
 }
