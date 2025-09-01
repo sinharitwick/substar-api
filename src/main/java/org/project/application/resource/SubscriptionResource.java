@@ -10,6 +10,7 @@ import org.project.application.dto.SubscriptionRequest;
 import org.project.application.service.SubscriptionService;
 
 @Path("/api/v1/subscriptions")
+@RolesAllowed("USER")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class SubscriptionResource {
@@ -21,31 +22,35 @@ public class SubscriptionResource {
 
     @GET
     @Path("/categories")
-    @RolesAllowed("USER")
     public Response getUserCategories () {
         Long userId = Long.valueOf(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.getUserCategories(userId)).build();
     }
 
     @GET
-    @RolesAllowed("USER")
     public Response getSubscriptionsByCategory(@QueryParam("category") String category) {
         Long userId = Long.valueOf(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.getUserSubscriptionsByCategory(userId, category)).build();
     }
 
     @POST
-    @RolesAllowed("USER")
     public Response addSubscription(SubscriptionRequest request) {
         Long userId = Long.valueOf(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.addSubscription(userId, request)).build();
     }
 
+    @PUT
+    @Path("/{id}")
+    public Response updateSubscription(@PathParam("id") Long subscriptionId, SubscriptionRequest request) {
+        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        return Response.ok(subscriptionService.updateSubscription(userId, subscriptionId, request)).build();
+    }
+
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("USER")
     public Response deleteSubscription(@PathParam("id") Long subscriptionId) {
-        subscriptionService.deleteSubscription(subscriptionId);
+        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        subscriptionService.deleteSubscription(userId, subscriptionId);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

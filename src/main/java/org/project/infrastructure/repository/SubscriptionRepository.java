@@ -17,6 +17,10 @@ public class SubscriptionRepository implements PanacheRepository<Subscription> {
         return list("user.userId = ?1 and category = ?2", userId, category);
     }
 
+    public Subscription findByIdAndUserId(Long subscriptionId, Long userId) {
+        return find("id = ?1 and user.userId = ?2", subscriptionId, userId).firstResult();
+    }
+
     @Transactional
     public void persistSubscription(Subscription subscription) {
         persist(subscription);

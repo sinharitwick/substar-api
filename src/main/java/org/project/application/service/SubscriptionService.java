@@ -46,8 +46,21 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public void deleteSubscription(Long subscriptionId) {
-        Subscription getSubscriptionById = subscriptionRepository.findById(subscriptionId);
-        subscriptionRepository.delete(getSubscriptionById);
+    public Subscription updateSubscription(Long userId, Long subscriptionId, SubscriptionRequest request) {
+        User user = userRepository.findById(userId);
+        if(user == null) {
+            throw new RuntimeException("User not found");
+        }
+        Subscription s = subscriptionRepository.findByIdAndUserId(subscriptionId, userId);
+        s.setCategory(request.getCategory());
+        s.setServiceName(request.getServiceName());
+        s.setStatus("ACTIVE");
+        return s;
+    }
+
+    @Transactional
+    public void deleteSubscription(Long userId, Long subscriptionId) {
+        Subscription s = subscriptionRepository.findByIdAndUserId(subscriptionId, userId);
+        subscriptionRepository.delete(s);
     }
 }
