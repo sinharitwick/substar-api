@@ -1,20 +1,56 @@
 package org.project.application.resource;
 
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.project.application.dto.SubscriptionRequest;
+import org.project.application.service.SubscriptionService;
 
 @Path("/api/v1/subscriptions")
+@RolesAllowed("USER")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class SubscriptionResource {
+    @Inject
+    SubscriptionService subscriptionService;
 
-    @GET
-    public String AllSubs () {
-        return "all subs";
-    }
+    @Inject
+    JsonWebToken jwt;
 
     @GET
     @Path("/categories")
-    public String Categories () {
-        return "all categories";
+    public Response getUserCategories () {
+        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        return Response.ok(subscriptionService.getUserCategories(userId)).build();
+    }
+
+    @GET
+    public Response getSubscriptionsByCategory(@QueryParam("category") String category) {
+        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        return Response.ok(subscriptionService.getUserSubscriptionsByCategory(userId, category)).build();
+    }
+
+    @POST
+    public Response addSubscription(SubscriptionRequest request) {
+        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        return Response.ok(subscriptionService.addSubscription(userId, request)).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response updateSubscription(@PathParam("id") Long subscriptionId, SubscriptionRequest request) {
+        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        return Response.ok(subscriptionService.updateSubscription(userId, subscriptionId, request)).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteSubscription(@PathParam("id") Long subscriptionId) {
+        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        subscriptionService.deleteSubscription(userId, subscriptionId);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 }
