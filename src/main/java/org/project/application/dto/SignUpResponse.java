@@ -3,7 +3,7 @@ package org.project.application.dto;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
-public class UserResponse {
+public class SignUpResponse {
     private Long userId;
     private String email;
     private String username;
@@ -11,19 +11,18 @@ public class UserResponse {
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
-    public UserResponse() {
+    public SignUpResponse() {
     }
 
-    public UserResponse(Long userId, String email, String username, Set<String> roles, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
+    public SignUpResponse(Long userId, String email, String username, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
         this.userId = userId;
         this.email = email;
         this.username = username;
-        this.roles = roles;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public UserResponse(Long userId, String email, String username) {
+    public SignUpResponse(Long userId, String email, String username) {
         this.userId = userId;
         this.email = email;
         this.username = username;
