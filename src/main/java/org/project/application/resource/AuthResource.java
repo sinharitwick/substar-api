@@ -1,6 +1,7 @@
 package org.project.application.resource;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -22,13 +23,13 @@ public class AuthResource {
 
     @POST
     @Path("/signup")
-    public Response signUpUser(SignUpRequest request) {
+    public Response signUpUser(@Valid SignUpRequest request) {
         return Response.ok(authService.signUpUser(request)).build();
     }
 
     @POST
     @Path("/login")
-    public Response loginUser(LoginRequest request) {
+    public Response loginUser(@Valid LoginRequest request) {
         return Response.ok(authService.loginUser(request)).build();
     }
 }
