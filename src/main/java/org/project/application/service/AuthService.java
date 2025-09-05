@@ -8,13 +8,12 @@ import jakarta.ws.rs.core.Response;
 import org.project.application.dto.LoginRequest;
 import org.project.application.dto.LoginResponse;
 import org.project.application.dto.SignUpRequest;
-import org.project.application.dto.UserResponse;
+import org.project.application.dto.SignUpResponse;
 import org.project.common.utils.JwtUtility;
 import org.project.common.utils.PasswordUtility;
 import org.project.domain.model.User;
 import org.project.infrastructure.repository.UserRepository;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ public class AuthService {
     @Inject
     UserRepository userRepository;
 
-    public UserResponse signUpUser(SignUpRequest request) {
+    public SignUpResponse signUpUser(SignUpRequest request) {
         if(userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new WebApplicationException("User already exists", Response.Status.CONFLICT);
         }
@@ -35,7 +34,7 @@ public class AuthService {
 
         userRepository.persistUser(user);
 
-        return new UserResponse(user.getUserId(), user.getEmail(), user.getUserName());
+        return new SignUpResponse(user.getUserId(), user.getEmail(), user.getUserName(), user.getCreatedAt(), user.getUpdatedAt());
     }
 
     public LoginResponse loginUser(LoginRequest request) {

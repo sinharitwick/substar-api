@@ -9,9 +9,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.project.application.dto.LoginRequest;
-import org.project.application.dto.LoginResponse;
 import org.project.application.dto.SignUpRequest;
-import org.project.application.dto.UserResponse;
 import org.project.application.service.AuthService;
 
 @Path("/api/v1/auth")
