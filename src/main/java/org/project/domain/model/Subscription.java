@@ -1,6 +1,8 @@
 package org.project.domain.model;
 
 import jakarta.persistence.*;
+import org.project.domain.model.enums.BillingCycle;
+import org.project.domain.model.enums.SubscriptionStatus;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -20,8 +22,13 @@ public class Subscription {
     private String category;
     private String serviceName;
     private BigDecimal cost;
-    private String billingCycle;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private BillingCycle billingCycle;
+
+    @Enumerated(EnumType.STRING)
+    private SubscriptionStatus status;
+
     private ZonedDateTime renewalDate;
     private String notes;
 
@@ -82,19 +89,19 @@ public class Subscription {
         this.cost = cost;
     }
 
-    public String getBillingCycle() {
+    public BillingCycle getBillingCycle() {
         return billingCycle;
     }
 
-    public void setBillingCycle(String billingCycle) {
+    public void setBillingCycle(BillingCycle billingCycle) {
         this.billingCycle = billingCycle;
     }
 
-    public String getStatus() {
+    public SubscriptionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(SubscriptionStatus status) {
         this.status = status;
     }
 

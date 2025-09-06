@@ -2,6 +2,7 @@ package org.project.application.resource;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -34,14 +35,14 @@ public class SubscriptionResource {
     }
 
     @POST
-    public Response addSubscription(SubscriptionRequest request) {
+    public Response addSubscription(@Valid SubscriptionRequest request) {
         Long userId = Long.valueOf(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.addSubscription(userId, request)).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response updateSubscription(@PathParam("id") Long subscriptionId, SubscriptionRequest request) {
+    public Response updateSubscription(@PathParam("id") Long subscriptionId, @Valid SubscriptionRequest request) {
         Long userId = Long.valueOf(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.updateSubscription(userId, subscriptionId, request)).build();
     }
