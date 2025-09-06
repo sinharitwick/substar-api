@@ -1,6 +1,6 @@
 package org.project.infrastructure.repository;
 
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import org.project.domain.model.Subscription;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class SubscriptionRepository implements PanacheRepository<Subscription> {
+public class SubscriptionRepository implements PanacheRepositoryBase<Subscription, UUID> {
     public List<Subscription> findAllSubscriptionsByUserId(UUID userId) {
         return list("user.userId", userId);
     }
@@ -18,7 +18,7 @@ public class SubscriptionRepository implements PanacheRepository<Subscription> {
         return list("user.userId = ?1 and category = ?2", userId, category);
     }
 
-    public Subscription findByIdAndUserId(Long subscriptionId, UUID userId) {
+    public Subscription findByIdAndUserId(UUID subscriptionId, UUID userId) {
         return find("id = ?1 and user.userId = ?2", subscriptionId, userId).firstResult();
     }
 

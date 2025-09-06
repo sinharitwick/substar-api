@@ -58,7 +58,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public Subscription updateSubscription(UUID userId, Long subscriptionId, SubscriptionRequest request) {
+    public Subscription updateSubscription(UUID userId, UUID subscriptionId, SubscriptionRequest request) {
         User user = userRepository.findById(userId);
         if(user == null) {
             throw new WebApplicationException("User not found", Response.Status.NOT_FOUND);
@@ -83,7 +83,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public void deleteSubscription(UUID userId, Long subscriptionId) {
+    public void deleteSubscription(UUID userId, UUID subscriptionId) {
         Subscription s = subscriptionRepository.findByIdAndUserId(subscriptionId, userId);
         subscriptionRepository.delete(s);
     }

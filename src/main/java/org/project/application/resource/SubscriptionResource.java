@@ -44,14 +44,14 @@ public class SubscriptionResource {
 
     @PUT
     @Path("/{id}")
-    public Response updateSubscription(@PathParam("id") Long subscriptionId, @Valid SubscriptionRequest request) {
+    public Response updateSubscription(@PathParam("id") UUID subscriptionId, @Valid SubscriptionRequest request) {
         UUID userId = UUID.fromString(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.updateSubscription(userId, subscriptionId, request)).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public Response deleteSubscription(@PathParam("id") Long subscriptionId) {
+    public Response deleteSubscription(@PathParam("id") UUID subscriptionId) {
         UUID userId = UUID.fromString(jwt.getClaim("userId").toString());
         subscriptionService.deleteSubscription(userId, subscriptionId);
         return Response.status(Response.Status.NO_CONTENT).build();

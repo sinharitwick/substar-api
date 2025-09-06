@@ -7,13 +7,15 @@ import org.project.domain.model.enums.SubscriptionStatus;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Currency;
+import java.util.UUID;
 
 @Entity
 @Table(name = "subscriptions")
 public class Subscription {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long subscriptionId;
+    @GeneratedValue
+    @Column(columnDefinition = "UUID")
+    private UUID subscriptionId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -49,11 +51,11 @@ public class Subscription {
         updatedAt = ZonedDateTime.now();
     }
 
-    public Long getSubscriptionId() {
+    public UUID getSubscriptionId() {
         return subscriptionId;
     }
 
-    public void setSubscriptionId(Long subscriptionId) {
+    public void setSubscriptionId(UUID subscriptionId) {
         this.subscriptionId = subscriptionId;
     }
 
