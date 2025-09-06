@@ -10,7 +10,7 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue
-    @Column(columnDefinition = "UUID")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID userId;
 
     @Column(nullable = false, unique = true)

@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Subscription {
     @Id
     @GeneratedValue
-    @Column(columnDefinition = "UUID")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID subscriptionId;
 
     @ManyToOne

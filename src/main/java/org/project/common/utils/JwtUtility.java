@@ -14,7 +14,7 @@ public class JwtUtility {
                 .upn(username)
                 .groups(roles)
                 .claim("userId", userId)
-                .expiresAt(Instant.now().plusSeconds(60))
+                .expiresAt(Instant.now().plusSeconds(3600))
                 .sign();
     }
 }
