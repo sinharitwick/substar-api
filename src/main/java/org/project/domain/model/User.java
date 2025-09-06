@@ -3,13 +3,15 @@ package org.project.domain.model;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @GeneratedValue
+    @Column(columnDefinition = "UUID")
+    private UUID userId;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -37,11 +39,11 @@ public class User {
         updatedAt = ZonedDateTime.now();
     }
 
-    public Long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

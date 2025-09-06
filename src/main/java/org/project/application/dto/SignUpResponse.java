@@ -2,9 +2,10 @@ package org.project.application.dto;
 
 import java.time.ZonedDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 public class SignUpResponse {
-    private Long userId;
+    private UUID userId;
     private String email;
     private String username;
     private Set<String> roles;
@@ -14,7 +15,7 @@ public class SignUpResponse {
     public SignUpResponse() {
     }
 
-    public SignUpResponse(Long userId, String email, String username, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
+    public SignUpResponse(UUID userId, String email, String username, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
         this.userId = userId;
         this.email = email;
         this.username = username;
@@ -22,17 +23,17 @@ public class SignUpResponse {
         this.updatedAt = updatedAt;
     }
 
-    public SignUpResponse(Long userId, String email, String username) {
+    public SignUpResponse(UUID userId, String email, String username) {
         this.userId = userId;
         this.email = email;
         this.username = username;
     }
 
-    public Long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

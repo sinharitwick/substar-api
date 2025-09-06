@@ -10,6 +10,8 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.project.application.dto.SubscriptionRequest;
 import org.project.application.service.SubscriptionService;
 
+import java.util.UUID;
+
 @Path("/api/v1/subscriptions")
 @RolesAllowed("USER")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -24,33 +26,33 @@ public class SubscriptionResource {
     @GET
     @Path("/categories")
     public Response getUserCategories () {
-        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        UUID userId = UUID.fromString(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.getUserCategories(userId)).build();
     }
 
     @GET
     public Response getSubscriptionsByCategory(@QueryParam("category") String category) {
-        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        UUID userId = UUID.fromString(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.getUserSubscriptionsByCategory(userId, category)).build();
     }
 
     @POST
     public Response addSubscription(@Valid SubscriptionRequest request) {
-        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        UUID userId = UUID.fromString(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.addSubscription(userId, request)).build();
     }
 
     @PUT
     @Path("/{id}")
     public Response updateSubscription(@PathParam("id") Long subscriptionId, @Valid SubscriptionRequest request) {
-        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        UUID userId = UUID.fromString(jwt.getClaim("userId").toString());
         return Response.ok(subscriptionService.updateSubscription(userId, subscriptionId, request)).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteSubscription(@PathParam("id") Long subscriptionId) {
-        Long userId = Long.valueOf(jwt.getClaim("userId").toString());
+        UUID userId = UUID.fromString(jwt.getClaim("userId").toString());
         subscriptionService.deleteSubscription(userId, subscriptionId);
         return Response.status(Response.Status.NO_CONTENT).build();
     }

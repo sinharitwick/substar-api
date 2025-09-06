@@ -15,6 +15,7 @@ import org.project.infrastructure.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class SubscriptionService {
@@ -24,18 +25,18 @@ public class SubscriptionService {
     @Inject
     UserRepository userRepository;
 
-    public List<String> getUserCategories(Long userId) {
+    public List<String> getUserCategories(UUID userId) {
         return subscriptionRepository.list("user.userId", userId).stream()
                 .map(Subscription::getCategory)
                 .distinct()
                 .toList();
     }
 
-    public List<Subscription> getUserSubscriptionsByCategory(Long userId, String category) {
+    public List<Subscription> getUserSubscriptionsByCategory(UUID userId, String category) {
         return subscriptionRepository.findSubscriptionsByUserIdAndCategory(userId, category);
     }
 
-    public Subscription addSubscription(Long userId, SubscriptionRequest request) {
+    public Subscription addSubscription(UUID userId, SubscriptionRequest request) {
         User user = userRepository.findById(userId);
         if(user == null) {
             throw new WebApplicationException("User not found", Response.Status.NOT_FOUND);
@@ -57,7 +58,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public Subscription updateSubscription(Long userId, Long subscriptionId, SubscriptionRequest request) {
+    public Subscription updateSubscription(UUID userId, Long subscriptionId, SubscriptionRequest request) {
         User user = userRepository.findById(userId);
         if(user == null) {
             throw new WebApplicationException("User not found", Response.Status.NOT_FOUND);
@@ -82,7 +83,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public void deleteSubscription(Long userId, Long subscriptionId) {
+    public void deleteSubscription(UUID userId, Long subscriptionId) {
         Subscription s = subscriptionRepository.findByIdAndUserId(subscriptionId, userId);
         subscriptionRepository.delete(s);
     }
