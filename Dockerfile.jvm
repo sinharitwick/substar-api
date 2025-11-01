@@ -1,5 +1,5 @@
 # Stage 1: Build the Quarkus app
-FROM maven:3.9.3-eclipse-temurin-21 AS build
+FROM maven:3.9.3-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copy only pom first for dependency caching
@@ -10,14 +10,14 @@ RUN mvn dependency:go-offline
 COPY src ./src
 
 # Package the Quarkus app (skip tests to save time)
-RUN ./mvnw package -DskipTests
+RUN mvn package -DskipTests
 
 # Stage 2: Create runtime image
-FROM registry.access.redhat.com/ubi9/openjdk-21:1.21
+FROM eclipse-temurin:17-jre
 WORKDIR /deployments
 
 # Copy built Quarkus app from build stage
-COPY --chown=185 --from=build /app/target/quarkus-app /deployments/
+COPY --from=build /app/target/quarkus-app /deployments/
 
 #Expose port
 EXPOSE 8080
@@ -28,5 +28,5 @@ ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=or
 ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
 
 # Run Quarkus
-ENTRYPOINT [ "/opt/jboss/container/java/run/run-java.sh" ]
+ENTRYPOINT ["java", "-jar", "/deployments/quarkus-run.jar"]
 
